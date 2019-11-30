@@ -55,9 +55,9 @@ class HomeFragmnent : Fragment() {
                 val answer : String = formatter.format(date)
 
                 if (answer > "16.00"){
-                    Toast.makeText(activity,"Kamu Telat",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Kamu Telat ${result.contents.toString()}",Toast.LENGTH_SHORT).show()
                 }else{
-                    Toast.makeText(activity,"Kamu Tepat Waktu",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Kamu Tepat Waktu $result",Toast.LENGTH_SHORT).show()
                 }
             }
         }else{
