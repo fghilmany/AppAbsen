@@ -21,20 +21,43 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
-        var date = Date()
-        val formater = SimpleDateFormat("HH:mm")
-        val answer : String = formater.format(date)
 
-        Toast.makeText(this,answer,Toast.LENGTH_SHORT).show()
+        // Update data tiap detik(waktu)
+        var t =object: Thread(){
+            public override fun run() {
+                while (!isInterrupted){
+                    try {
+                        Thread.sleep(1000)
+                        runOnUiThread (object : Runnable{
+                            override fun run() {
 
-        val qrEncoder = QRGEncoder(answer, null, QRGContents.Type.TEXT, 300)
+                                //set Waktu Local
+                                var date = Date()
+                                val formater = SimpleDateFormat("HH:mm:ss")
+                                val answer : String = formater.format(date)
 
-        try {
-            val bitmap = qrEncoder.encodeAsBitmap()
-            iv_qr_code.setImageBitmap(bitmap)
+                                //Toast.makeText(applicationContext,answer,Toast.LENGTH_SHORT).show()
 
-        }catch (e:WriterException){
+                                //memasukan data waktu (answer) ke qr
+                                val qrEncoder = QRGEncoder(answer, null, QRGContents.Type.TEXT, 300)
 
+                                //konfersi qr ke bitmap
+                                try {
+                                    val bitmap = qrEncoder.encodeAsBitmap()
+                                    iv_qr_code.setImageBitmap(bitmap)
+
+                                }catch (e:WriterException){
+
+                                }
+                            }
+                        })
+                    }catch (e:Throwable){
+                        e.printStackTrace()
+                    }
+                }
+            }
         }
+        t.start()
+
     }
 }
